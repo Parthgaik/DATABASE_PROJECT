@@ -2,6 +2,7 @@
 import sqlite3
 
 # Functions of code start here
+####################################################################
 
 # Connection function to prevent repeated code
 
@@ -55,7 +56,6 @@ def class_of_cards():
         id = idlist[x]
         cardclass = cardtype[x]
         print(f"{id} {cardclass}")
-    print(idlist, cardtype)
     cofc = input('Please enter id of type of card ')
     cofc = int(cofc)
     cardclass = cursor.execute("SELECT Name FROM Card WHERE TypeID = ?", (cofc,)).fetchall()
@@ -64,8 +64,8 @@ def class_of_cards():
 
 
 # def cards_by_arena():
-#     cursor = connection()
-#     cards
+#     conn, cursor = connection()
+#     cards = 
 #     cardarena = cursor.execute("SELECT * FROM Card WHERE ArenaID = ?", ()).fetchall()
 #     print(x)
 # functionname()
@@ -77,15 +77,25 @@ def class_of_cards():
 #     print(x)
 # functionname()
 
+
+# Start Of Program
+#######################################################
+
+
 print("Hello! Welcome to my program")
 while True:
     what = input('press 1 to see all cards, 2 to see cards by rarity, 3 to see cards by elixir, 4 to see class of cards ')
-    what = int(what)
-    if what == 1:
-        show_all_cards()
-    if what == 2:
-        cards_by_rarity()
-    if what == 3:
-        cards_by_elixir()
-    if what == 4:
-        class_of_cards()
+    if what.isnumeric():
+        what = int(what)
+        if what > 4 or what < 1:
+            print("please Enter Valid input")
+        if what == 1:
+            show_all_cards()
+        if what == 2:
+            cards_by_rarity()
+        if what == 3:
+            cards_by_elixir()
+        if what == 4:
+            class_of_cards()
+    else:
+        print("please Enter Valid input")
