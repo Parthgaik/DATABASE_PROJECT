@@ -15,15 +15,17 @@ def connection():
 def show_all_cards():
     conn, cursor = connection()
     cards = cursor.execute("SELECT Name FROM Card;").fetchall()
+    print("Here are all cards")
     for card in cards:
         print(card[0])
 
 
 def cards_by_rarity():
     conn, cursor = connection()
-    rarity = input('please enter id of rarity ')
+    rarity = input('please enter id of rarity card you would like. 1 for Common, 2 for Rare, 3 for Epic and 4 for Legendary ')
     rarity = int(rarity)
     cardrarity = cursor.execute("SELECT Name FROM Card WHERE Rarity = ?", (rarity,)).fetchall()
+    print("Here are all the cards by their rarity")
     for card in cardrarity:
         print(card[0])
 
@@ -39,6 +41,21 @@ def cards_by_elixir():
 
 def class_of_cards():
     conn, cursor = connection()
+    #Print out id and type from type table in db
+    idlist = []
+    cardtype = []
+    id_type = cursor.execute("SELECT * FROM Type;").fetchall()
+    for i in id_type:
+        id = i[0]
+        idlist.append(id)
+    for i in id_type:
+        id = i[1]
+        cardtype.append(id)
+    for x in range(len(idlist)):
+        id = idlist[x]
+        cardclass = cardtype[x]
+        print(f"{id} {cardclass}")
+    print(idlist, cardtype)
     cofc = input('Please enter id of type of card ')
     cofc = int(cofc)
     cardclass = cursor.execute("SELECT Name FROM Card WHERE TypeID = ?", (cofc,)).fetchall()
@@ -59,9 +76,9 @@ def class_of_cards():
 #     x = cursor.execute("   ;").fetchall()
 #     print(x)
 # functionname()
-        
+
+print("Hello! Welcome to my program")
 while True:
-    print("Hello! Welcome to my program")
     what = input('press 1 to see all cards, 2 to see cards by rarity, 3 to see cards by elixir, 4 to see class of cards ')
     what = int(what)
     if what == 1:
