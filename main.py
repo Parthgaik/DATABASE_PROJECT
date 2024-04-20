@@ -45,7 +45,7 @@ def cards_by_elixir():
     acceptable_elixir = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     while True:
         if elixir not in acceptable_elixir:
-                elixir = input("Please enter a valid input ")
+            elixir = input("Please enter a valid input ")
         else:
             if not elixir.isnumeric():
                 elixir = input("Please enter a valid input ")
@@ -74,7 +74,7 @@ def class_of_cards():
         cardclass = cardtype[x]
         print(f"{id} {cardclass}")
     cofc = input('Please enter id of all the cards you would like to see ')
-    acceptable_class = ["1","3", "4"]
+    acceptable_class = ["1", "3", "4"]
     while True:
         if cofc not in acceptable_class:
             cofc = input("Please enter a valid input ")
@@ -89,19 +89,22 @@ def class_of_cards():
                 break
 
 
-# def cards_by_arena():
-#     conn, cursor = connection()
-#     cards =
-#     cardarena = cursor.execute("SELECT * FROM Card WHERE ArenaID = ?", ()).fetchall()
-#     print(x)
-# functionname()
-
-
-# def ():
-#     cursor = connection()
-#     x = cursor.execute("   ;").fetchall()
-#     print(x)
-# functionname()
+def card_counters():
+    conn, cursor = connection()
+    counter = input('Please enter the counter of card you want from 1 - 29 ')
+    acceptable_counters = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29"]
+    while True:
+        if counter not in acceptable_counters:
+            counter = input("Please enter a valid input ")
+        else:
+            if not counter.isnumeric():
+                counter = input("Please enter a valid input ")
+            else:
+                print("Here are all the cards with selected counter")
+                cardcounter = cursor.execute("SELECT CardID, CounterID FROM Counters Where id = ?", (counter,)).fetchall()
+                for card in cardcounter:
+                    print(card[0])
+                break
 
 
 # Start Of Program
@@ -110,7 +113,7 @@ def class_of_cards():
 no = "no"
 print("Hello! Welcome to my program")
 while True:
-    what = input('press 1 to see all cards, 2 to see cards by rarity, 3 to see cards by elixir, 4 to see class of cards.\nHowever, if you wish to exit the program, please enter "no" ')
+    what = input('press 1 to see all cards, 2 to see cards by rarity, 3 to see cards by elixir, 4 to see class of cards and 5 to see card counters.\nHowever, if you wish to exit the program, please enter "no" ')
     if what == no:
         print("Thank you for your time")
         break
@@ -118,7 +121,7 @@ while True:
         pass
     if what.isnumeric():
         what = int(what)
-        if what > 4 or what < 1:
+        if what > 5 or what < 1:
             print("please Enter Valid input")
         if what == 1:
             show_all_cards()
@@ -128,5 +131,7 @@ while True:
             cards_by_elixir()
         if what == 4:
             class_of_cards()
+        if what == 5:
+            card_counters()
     else:
         print("Please Enter Valid input")
