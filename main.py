@@ -24,7 +24,7 @@ def show_all_cards():
 def cards_by_rarity():
     conn, cursor = connection()
     rarity = input('please enter id of rarity card you would like. 1 for Common, 2 for Rare, 3 for Epic and 4 for Legendary ')
-    acceptable_rarity = ["1", "2", "3", "4",]
+    acceptable_rarity = ["1", "2", "3", "4",] # Acceptable inputs for this function
     while True:
         if rarity not in acceptable_rarity:
             rarity = input("Please enter a valid input ")
@@ -42,7 +42,7 @@ def cards_by_rarity():
 def cards_by_elixir():
     conn, cursor = connection()
     elixir = input('Please enter the elixir of card you want from 1 - 10 ')
-    acceptable_elixir = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    acceptable_elixir = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] # Acceptable inputs for this function
     while True:
         if elixir not in acceptable_elixir:
             elixir = input("Please enter a valid input ")
@@ -59,11 +59,11 @@ def cards_by_elixir():
 
 def class_of_cards():
     conn, cursor = connection()
-    # Print out id and type from type table in db
+    # Print out id and type from type table in db (START)
     idlist = []
     cardtype = []
     id_type = cursor.execute("SELECT * FROM Type;").fetchall()
-    for i in id_type:
+    for i in id_type: # Get the first and second values in the query and store them in the lists (START)
         id = i[0]
         idlist.append(id)
     for i in id_type:
@@ -72,9 +72,10 @@ def class_of_cards():
     for x in range(len(idlist)):
         id = idlist[x]
         cardclass = cardtype[x]
-        print(f"{id} {cardclass}")
+        print(f"{id} {cardclass}") # Get the first and second values in the query and store them in the lists and print them (END)
+        # Print out id and type from type table in db (END)
     cofc = input('Please enter id of all the cards you would like to see ')
-    acceptable_class = ["1", "3", "4"]
+    acceptable_class = ["1", "3", "4"] # Acceptable inputs for this function
     while True:
         if cofc not in acceptable_class:
             cofc = input("Please enter a valid input ")
@@ -92,7 +93,8 @@ def class_of_cards():
 def card_counters():
     conn, cursor = connection()
     counter = input('Please enter the counter of card you want from 1 - 29 ')
-    acceptable_counters = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29"]
+    # Acceptable inputs for this function
+    acceptable_counters = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"] 
     while True:
         if counter not in acceptable_counters:
             counter = input("Please enter a valid input ")
@@ -101,7 +103,7 @@ def card_counters():
                 counter = input("Please enter a valid input ")
             else:
                 print("Here are all the cards with selected counter")
-                cardcounter = cursor.execute("SELECT CardID, CounterID FROM Counters Where id = ?", (counter,)).fetchall()
+                cardcounter = cursor.execute("SELECT Name FROM Card WHERE Id = ?", (counter,)).fetchall()
                 for card in cardcounter:
                     print(card[0])
                 break
