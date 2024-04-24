@@ -24,7 +24,7 @@ def show_all_cards():
 def cards_by_rarity():
     conn, cursor = connection()
     rarity = input('please enter id of rarity card you would like. 1 for Common, 2 for Rare, 3 for Epic and 4 for Legendary ')
-    acceptable_rarity = ["1", "2", "3", "4",] # Acceptable inputs for this function
+    acceptable_rarity = ["1", "2", "3", "4",]  # Acceptable inputs for this function
     while True:
         if rarity not in acceptable_rarity:
             rarity = input("Please enter a valid input ")
@@ -42,7 +42,7 @@ def cards_by_rarity():
 def cards_by_elixir():
     conn, cursor = connection()
     elixir = input('Please enter the elixir of card you want from 1 - 10 ')
-    acceptable_elixir = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] # Acceptable inputs for this function
+    acceptable_elixir = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]  # Acceptable inputs for this function
     while True:
         if elixir not in acceptable_elixir:
             elixir = input("Please enter a valid input ")
@@ -63,7 +63,7 @@ def class_of_cards():
     idlist = []
     cardtype = []
     id_type = cursor.execute("SELECT * FROM Type;").fetchall()
-    for i in id_type: # Get the first and second values in the query and store them in the lists (START)
+    for i in id_type:  # Get the first and second values in the query and store them in the lists (START)
         id = i[0]
         idlist.append(id)
     for i in id_type:
@@ -72,10 +72,10 @@ def class_of_cards():
     for x in range(len(idlist)):
         id = idlist[x]
         cardclass = cardtype[x]
-        print(f"{id} {cardclass}") # Get the first and second values in the query and store them in the lists and print them (END)
+        print(f"{id} {cardclass}")  # Get the first and second values in the query and store them in the lists and print them (END)
         # Print out id and type from type table in db (END)
     cofc = input('Please enter id of all the cards you would like to see ')
-    acceptable_class = ["1", "3", "4"] # Acceptable inputs for this function
+    acceptable_class = ["1", "3", "4"]  # Acceptable inputs for this function
     while True:
         if cofc not in acceptable_class:
             cofc = input("Please enter a valid input ")
@@ -92,20 +92,39 @@ def class_of_cards():
 
 def card_counters():
     conn, cursor = connection()
+    idlist = []
+    cardnames = []
+    cards = cursor.execute("SELECT id, Name FROM Card").fetchall()
+    for i in cards:
+        x = i[0]
+        idlist.append(x)
+    for i in cards:
+        x = i[1]
+        cardnames.append(x)
+    for x in range(len(idlist)):
+        id = idlist[x]
+        names = cardnames[x]
+        print(f"{id} {names}")
     counter = input('Please enter the counter of card you want from 1 - 29 ')
     # Acceptable inputs for this function
-    acceptable_counters = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"] 
+    acceptable_counters = [x for x in range(1, 105)]
+    acceptable_counters_1 = []
+    for i in acceptable_counters:
+        i = str(i)
+        acceptable_counters_1.append(i)
     while True:
-        if counter not in acceptable_counters:
+        if counter not in acceptable_counters_1:
             counter = input("Please enter a valid input ")
         else:
             if not counter.isnumeric():
                 counter = input("Please enter a valid input ")
             else:
-                print("Here are all the cards with selected counter")
-                cardcounter = cursor.execute("SELECT Name FROM Card WHERE Id = ?", (counter,)).fetchall()
-                for card in cardcounter:
-                    print(card[0])
+                print("Here is the selected card with its counter")
+                card = cursor.execute("SELECT Card.Name, Counters.CounterID FROM Card JOIN Counters ON Card.id = Counters.id WHERE CardID = ?", (counter,)).fetchall()
+                card = card[0][1]
+                cardcounter = cursor.execute("SELECT Counters.CounterID, Card.Name FROM Card JOIN Counters ON Card.id = Counters.CounterID WHERE CounterID = ?", (card,)).fetchall()
+                cardcounter = cardcounter[0][1]
+                print(cardcounter)
                 break
 
 
